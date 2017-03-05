@@ -5,11 +5,19 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public float moveSpeed = 1f;
+    public GameObject path;
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
+	void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.tag.Equals("spikes"))
+        {
+            Vector3 temp = GameObject.Find("SpawnPoint").transform.position;
+            this.transform.position = temp;
+        }
+    }
 	// Update is called once per frame
 	void Update ()
     {
@@ -29,7 +37,11 @@ public class Player : MonoBehaviour {
         {
             this.GetComponent<Rigidbody2D>().MovePosition(transform.position + Vector3.right * moveSpeed);
         }
-
+        if (Input.GetButtonDown("sight"))
+        {
+            if (path.activeInHierarchy) path.SetActive(false);
+            else path.SetActive(true);
+        }
         checkCamera();
 	}
 
